@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test --watch false"
+    "test": "ng test --watch false",
+    "generate-api": "openapi-generator-cli generate -i api-docs.json -g typescript-angular -o src/main/webapp/app/api --additional-properties=ngVersion=19.0.0,npmName=rest-api,supportsES6=true,nullSafeAdditionalProps=false,fileNaming=kebab-case"
   },
   "dependencies": {
     "@angular/animations": "19.2.8",
@@ -19,6 +20,7 @@
     "@angular/router": "19.2.8",
     "http-status-codes": "2.3.0",
     "rxjs": "7.8.2",
+    "swagger-ui": "^5.21.0",
     "tslib": "2.8.1",
     "zone.js": "0.15.0"
   },
@@ -27,9 +29,11 @@
     "@angular/cli": "19.2.8",
     "@angular/compiler-cli": "19.2.8",
     "@angular/localize": "19.2.8",
+    "@openapitools/openapi-generator-cli": "^2.20.0",
     "@tailwindcss/forms": "0.5.10",
     "@tailwindcss/postcss": "4.1.4",
     "@types/jasmine": "5.1.2",
+    "@types/swagger-ui": "^5.21.1",
     "jasmine-core": "5.1.2",
     "karma": "6.4.4",
     "karma-chrome-launcher": "3.2.0",
