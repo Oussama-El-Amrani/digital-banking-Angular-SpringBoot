@@ -7,6 +7,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -17,7 +18,7 @@ public abstract class BankAccount {
     @Id
     @GeneratedValue
     @JdbcTypeCode(SqlTypes.CHAR)
-    private String id;
+    private UUID id;
     private String accountNumber;
     private String accountType;
     private String currency;
