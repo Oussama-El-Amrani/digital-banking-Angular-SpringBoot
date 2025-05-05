@@ -1,4 +1,4 @@
-package io.oussamaib0.my_app.controller;
+package io.oussamaib0.banking.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package io.oussamaib0.my_app.config;
+package io.oussamaib0.banking.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +17,10 @@ public class AngularLocalConfig {
 
             @Override
             public void addCorsMappings(final CorsRegistry registry) {
-                registry.addMapping("/**").allowedMethods("*").allowedOrigins("http://localhost:4200");
+                registry
+                    .addMapping("/**")
+                    .allowedMethods("*")
+                    .allowedOrigins("http://localhost:4200");
             }
 
         };

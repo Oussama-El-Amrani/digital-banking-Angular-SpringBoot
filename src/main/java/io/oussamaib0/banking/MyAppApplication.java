@@ -1,4 +1,4 @@
-package io.oussamaib0.my_app;
+package io.oussamaib0.banking;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

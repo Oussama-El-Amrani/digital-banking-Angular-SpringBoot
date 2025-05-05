@@ -1,4 +1,4 @@
-package io.oussamaib0.my_app.config;
+package io.oussamaib0.banking.config;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Configuration;
@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 @Configuration
-@EntityScan("io.oussamaib0.my_app.domain")
-@EnableJpaRepositories("io.oussamaib0.my_app.repos")
+@EntityScan("io.oussamaib0.banking.entities")
+@EnableJpaRepositories("io.oussamaib0.banking.repositories")
 @EnableTransactionManagement
 public class DomainConfig {
 }

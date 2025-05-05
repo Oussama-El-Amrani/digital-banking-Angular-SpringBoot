@@ -1,4 +1,4 @@
-package io.oussamaib0.my_app.config;
+package io.oussamaib0.banking.config;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
