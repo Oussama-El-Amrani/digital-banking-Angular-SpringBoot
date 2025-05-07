@@ -1,0 +1,58 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-2xl font-bold mb-6">My Accounts</h1>
+
+  @if (loading) {
+    <div class="flex justify-center items-center h-40">
+      <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+    </div>
+  } @else if (error) {
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+      <span class="block sm:inline">{{ error }}</span>
+    </div>
+  } @else if (accounts.length === 0) {
+    <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative" role="alert">
+      <span class="block sm:inline">You don't have any accounts yet.</span>
+    </div>
+  } @else {
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for (account of accounts; track account.id) {
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+          <div class="p-4 border-b">
+            <h2 class="text-xl font-semibold">{{ account.accountType }} Account</h2>
+            <p class="text-gray-600 text-sm">{{ account.accountNumber }}</p>
+          </div>
+          <div class="p-4">
+            <div class="flex justify-between items-center mb-2">
+              <span class="text-gray-600">Balance:</span>
+              <span class="font-bold">{{ account.balance | currency:account.currency }}</span>
+            </div>
+            <div class="mt-4 flex justify-between">
+              <a [routerLink]="['/customer/accounts', account.id]" 
+                class="text-blue-500 hover:text-blue-700 text-sm font-medium">
+                View Details
+              </a>
+              <a [routerLink]="['/customer/accounts', account.id, 'operations']" 
+                class="text-blue-500 hover:text-blue-700 text-sm font-medium">
+                View Transactions
+              </a>
+            </div>
+          </div>
+          <div class="bg-gray-50 p-4 flex justify-between">
+            <button [routerLink]="['/customer/accounts/deposit', account.id]" 
+              class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm">
+              Deposit
+            </button>
+            <button [routerLink]="['/customer/accounts/withdraw', account.id]" 
+              class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm">
+              Withdraw
+            </button>
+            <button [routerLink]="['/customer/accounts/transfer', account.id]" 
+              class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">
+              Transfer
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
