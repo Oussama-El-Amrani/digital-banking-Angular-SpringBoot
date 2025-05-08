@@ -9,12 +9,15 @@ import io.oussamaib0.banking.mappers.BankAccountMapper;
 import io.oussamaib0.banking.services.IBankAccountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/accounts")
+@CrossOrigin(origins = "*", maxAge = 3600, allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS})
 public class BankAccountController {
 
     private final IBankAccountService bankAccountService;
@@ -25,6 +28,7 @@ public class BankAccountController {
         this.bankAccountMapper = bankAccountMapper;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/current")
     public ResponseEntity<BankAccountDTO> createCurrentAccount(@RequestBody CreateCurrentAccountRequest request) {
         BankAccount account = bankAccountService.createCurrentAccount(
@@ -35,6 +39,7 @@ public class BankAccountController {
         return new ResponseEntity<>(mapToDTO(account), HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/saving")
     public ResponseEntity<BankAccountDTO> createSavingAccount(@RequestBody CreateSavingAccountRequest request) {
         BankAccount account = bankAccountService.createSavingAccount(
