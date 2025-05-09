@@ -68,9 +68,9 @@ public class UserService implements IUserService {
         customer.setAddress(registerRequest.getAddress());
         customer.setBankAccounts(new ArrayList<>());
         customer.setUser(savedUser);
-        
+
         customerRepository.save(customer);
-        
+
         return savedUser;
     }
 
@@ -90,7 +90,21 @@ public class UserService implements IUserService {
         roles.add(adminRole);
 
         user.setRoles(roles);
-        return userRepository.save(user);
+        AppUser savedUser = userRepository.save(user);
+
+        // Create customer profile for the admin user as well
+        // This ensures admin users can access customer-related functionality
+        Customer customer = new Customer();
+        customer.setName(registerRequest.getName() != null ? registerRequest.getName() : "Admin " + registerRequest.getUsername());
+        customer.setEmail(registerRequest.getEmail() != null ? registerRequest.getEmail() : registerRequest.getUsername() + "@admin.com");
+        customer.setPhoneNumber(registerRequest.getPhoneNumber());
+        customer.setAddress(registerRequest.getAddress());
+        customer.setBankAccounts(new ArrayList<>());
+        customer.setUser(savedUser);
+
+        customerRepository.save(customer);
+
+        return savedUser;
     }
 
     @Override
