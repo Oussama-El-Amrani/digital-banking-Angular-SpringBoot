@@ -23,13 +23,22 @@ export class CustomerAccountsComponent implements OnInit {
 
   loadAccounts(): void {
     this.loading = true;
+    this.error = '';
     this.customerAccountService.getMyAccounts().subscribe({
       next: (data) => {
-        this.accounts = data;
+        this.accounts = data || [];
         this.loading = false;
       },
       error: (err) => {
-        this.error = 'Failed to load accounts: ' + (err.error?.message || 'Unknown error');
+        console.error('Error loading accounts:', err);
+        if (err.status === 404) {
+          // User doesn't have a customer profile
+          this.error = '';
+          this.accounts = [];
+        } else {
+          this.error = 'Failed to load accounts: ' + (err.error?.message || 'Please contact support');
+          this.accounts = [];
+        }
         this.loading = false;
       }
     });

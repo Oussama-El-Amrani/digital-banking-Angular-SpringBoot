@@ -13,58 +13,135 @@
 
   <!-- Main navigation cards -->
   <div class="container mx-auto px-4 max-w-4xl">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <!-- Dashboard Card -->
-      <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 group">
-        <div class="h-2 bg-blue-600"></div>
-        <div class="p-8">
-          <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mb-4 group-hover:bg-blue-200 transition duration-300">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-            </svg>
+    <!-- Not logged in -->
+    @if (!isLoggedIn) {
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Login Card -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 group">
+          <div class="h-2 bg-blue-600"></div>
+          <div class="p-8">
+            <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mb-4 group-hover:bg-blue-200 transition duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+              </svg>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-3">Login</h2>
+            <p class="text-gray-600 mb-6">Access your banking dashboard to view account summaries, perform operations, and track transactions.</p>
+            <a routerLink="/login" class="inline-block w-full py-3 bg-blue-600 text-white font-semibold rounded-lg text-center shadow-md hover:bg-blue-700 transition duration-300">
+              Login
+            </a>
           </div>
-          <h2 class="text-2xl font-bold text-gray-900 mb-3">Dashboard</h2>
-          <p class="text-gray-600 mb-6">Access your banking dashboard to view account summaries, perform operations, and track transactions.</p>
-          <a routerLink="/banking" class="inline-block w-full py-3 bg-blue-600 text-white font-semibold rounded-lg text-center shadow-md hover:bg-blue-700 transition duration-300">
-            Dashboard
-          </a>
         </div>
-      </div>
 
-      <!-- Manage Customers Card -->
-      <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 group">
-        <div class="h-2 bg-green-600"></div>
-        <div class="p-8">
-          <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mb-4 group-hover:bg-green-200 transition duration-300">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-            </svg>
+        <!-- Register Card -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 group">
+          <div class="h-2 bg-green-600"></div>
+          <div class="p-8">
+            <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mb-4 group-hover:bg-green-200 transition duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+              </svg>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-3">Register</h2>
+            <p class="text-gray-600 mb-6">Create a new account to access our digital banking services.</p>
+            <a routerLink="/register" class="inline-block w-full py-3 bg-green-600 text-white font-semibold rounded-lg text-center shadow-md hover:bg-green-700 transition duration-300">
+              Register
+            </a>
           </div>
-          <h2 class="text-2xl font-bold text-gray-900 mb-3">Manage Customers</h2>
-          <p class="text-gray-600 mb-6">Create, view, and update customer profiles with an intuitive management interface.</p>
-          <a routerLink="/customers" class="inline-block w-full py-3 bg-green-600 text-white font-semibold rounded-lg text-center shadow-md hover:bg-green-700 transition duration-300">
-            Manage Customers
-          </a>
         </div>
       </div>
+    }
 
-      <!-- Create Account Card -->
-      <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 group">
-        <div class="h-2 bg-purple-600"></div>
-        <div class="p-8">
-          <div class="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mb-4 group-hover:bg-purple-200 transition duration-300">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-            </svg>
+    <!-- Admin logged in -->
+    @if (isAdmin) {
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Dashboard Card -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 group">
+          <div class="h-2 bg-blue-600"></div>
+          <div class="p-8">
+            <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mb-4 group-hover:bg-blue-200 transition duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              </svg>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-3">Dashboard</h2>
+            <p class="text-gray-600 mb-6">Access your banking dashboard to view account summaries, perform operations, and track transactions.</p>
+            <a routerLink="/banking" class="inline-block w-full py-3 bg-blue-600 text-white font-semibold rounded-lg text-center shadow-md hover:bg-blue-700 transition duration-300">
+              Dashboard
+            </a>
           </div>
-          <h2 class="text-2xl font-bold text-gray-900 mb-3">Create Account</h2>
-          <p class="text-gray-600 mb-6">Set up new banking accounts for customers, including checking and savings options.</p>
-          <a routerLink="/accounts/new" class="inline-block w-full py-3 bg-purple-600 text-white font-semibold rounded-lg text-center shadow-md hover:bg-purple-700 transition duration-300">
-            Create Account
-          </a>
+        </div>
+
+        <!-- Manage Customers Card -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 group">
+          <div class="h-2 bg-green-600"></div>
+          <div class="p-8">
+            <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mb-4 group-hover:bg-green-200 transition duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-3">Manage Customers</h2>
+            <p class="text-gray-600 mb-6">Create, view, and update customer profiles with an intuitive management interface.</p>
+            <a routerLink="/customers" class="inline-block w-full py-3 bg-green-600 text-white font-semibold rounded-lg text-center shadow-md hover:bg-green-700 transition duration-300">
+              Manage Customers
+            </a>
+          </div>
+        </div>
+
+        <!-- Create Account Card -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 group">
+          <div class="h-2 bg-purple-600"></div>
+          <div class="p-8">
+            <div class="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mb-4 group-hover:bg-purple-200 transition duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+              </svg>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-3">Create Account</h2>
+          </div>
         </div>
       </div>
-    </div>
+    }
+
+    <!-- Customer logged in -->
+    @if (isCustomer) {
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- My Accounts Card -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 group">
+          <div class="h-2 bg-blue-600"></div>
+          <div class="p-8">
+            <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mb-4 group-hover:bg-blue-200 transition duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+              </svg>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-3">My Accounts</h2>
+            <p class="text-gray-600 mb-6">View your accounts, check balances, and manage transactions.</p>
+            <a routerLink="/customer/accounts" class="inline-block w-full py-3 bg-blue-600 text-white font-semibold rounded-lg text-center shadow-md hover:bg-blue-700 transition duration-300">
+              View Accounts
+            </a>
+          </div>
+        </div>
+
+        <!-- Dashboard Card -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 group">
+          <div class="h-2 bg-green-600"></div>
+          <div class="p-8">
+            <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mb-4 group-hover:bg-green-200 transition duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              </svg>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-3">Dashboard</h2>
+            <p class="text-gray-600 mb-6">Access your banking dashboard to view account summaries and track transactions.</p>
+            <a routerLink="/banking" class="inline-block w-full py-3 bg-green-600 text-white font-semibold rounded-lg text-center shadow-md hover:bg-green-700 transition duration-300">
+              Dashboard
+            </a>
+          </div>
+        </div>
+      </div>
+    }
   </div>
 
   <!-- Footer -->

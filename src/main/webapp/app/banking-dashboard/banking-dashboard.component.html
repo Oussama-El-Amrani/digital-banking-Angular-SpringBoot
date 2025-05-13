@@ -6,7 +6,8 @@
     <p class="text-gray-600">Access the different features of your banking application using the cards below</p>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+  <!-- Admin View -->
+  <div *ngIf="isAdmin" class="grid grid-cols-1 md:grid-cols-2 gap-8">
     <div class="bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 hover:shadow-xl">
       <div class="p-6 text-center">
         <h3 class="text-2xl font-semibold text-gray-800 mb-3">Customer Management</h3>
@@ -29,13 +30,36 @@
     </div>
   </div>
 
+  <!-- Customer View -->
+  <div *ngIf="!isAdmin" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 hover:shadow-xl">
+      <div class="p-6 text-center">
+        <h3 class="text-2xl font-semibold text-gray-800 mb-3">My Accounts</h3>
+        <p class="text-gray-600 mb-6">View your accounts and transaction history</p>
+        <a [routerLink]="['/customer/accounts']" class="inline-block px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300">
+          View My Accounts
+        </a>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 hover:shadow-xl">
+      <div class="p-6 text-center">
+        <h3 class="text-2xl font-semibold text-gray-800 mb-3">Transfer Money</h3>
+        <p class="text-gray-600 mb-6">Transfer money between your accounts or to other customers</p>
+        <a [routerLink]="['/customer/accounts']" class="inline-block px-6 py-3 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 transition duration-300">
+          Go to Transfers
+        </a>
+      </div>
+    </div>
+  </div>
+
   <!-- Error message display -->
   <div *ngIf="errorMessage" class="mt-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
     {{ errorMessage }}
   </div>
 
-  <!-- Account Search by Customer Section -->
-  <div class="mt-12 bg-white rounded-xl shadow-lg overflow-hidden">
+  <!-- Account Search by Customer Section (Admin Only) -->
+  <div *ngIf="isAdmin" class="mt-12 bg-white rounded-xl shadow-lg overflow-hidden">
     <div class="px-6 py-4 bg-gray-50 border-b">
       <h3 class="text-xl font-semibold text-gray-900">Account Search by Customer</h3>
     </div>
@@ -67,7 +91,7 @@
             name="selectedAccount"
             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
             <option value="">-- Select an account --</option>
-            <option *ngFor="let account of customerAccounts" [value]="account.id">{{ account.type }} - Balance: {{ account.balance | currency }}</option>
+            <option *ngFor="let account of customerAccounts" [value]="account.id">{{ account.accountType }} - Balance: {{ account.balance | currency:account.currency }}</option>
           </select>
           <div *ngIf="!loadingAccounts && customerAccounts.length > 0" class="mt-4 flex justify-end">
             <button
@@ -85,8 +109,8 @@
     </div>
   </div>
 
-  <!-- Transfer Funds Section -->
-  <div class="mt-8 bg-white rounded-xl shadow-lg overflow-hidden">
+  <!-- Transfer Funds Section (Admin Only) -->
+  <div *ngIf="isAdmin" class="mt-8 bg-white rounded-xl shadow-lg overflow-hidden">
     <div class="px-6 py-4 bg-gray-50 border-b">
       <h3 class="text-xl font-semibold text-gray-900">Transfer Funds</h3>
     </div>
@@ -116,7 +140,7 @@
               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               [disabled]="!sourceCustomerAccounts.length">
               <option value="">-- Select an account --</option>
-              <option *ngFor="let account of sourceCustomerAccounts" [value]="account.id">{{ account.type }} - Balance: {{ account.balance | currency }}</option>
+              <option *ngFor="let account of sourceCustomerAccounts" [value]="account.id">{{ account.accountType }} - Balance: {{ account.balance | currency:account.currency }}</option>
             </select>
             <p *ngIf="transferForm.get('sourceAccountId')?.errors && transferForm.get('sourceAccountId')?.touched" class="mt-1 text-sm text-red-600">Source account is required</p>
           </div>
@@ -144,7 +168,7 @@
               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               [disabled]="!destinationCustomerAccounts.length">
               <option value="">-- Select an account --</option>
-              <option *ngFor="let account of destinationCustomerAccounts" [value]="account.id">{{ account.type }} - Balance: {{ account.balance | currency }}</option>
+              <option *ngFor="let account of destinationCustomerAccounts" [value]="account.id">{{ account.accountType }} - Balance: {{ account.balance | currency:account.currency }}</option>
             </select>
             <p *ngIf="transferForm.get('destinationAccountId')?.errors && transferForm.get('destinationAccountId')?.touched" class="mt-1 text-sm text-red-600">Destination account is required</p>
           </div>
