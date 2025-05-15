@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.UUID;
 
 public record AccountOperationDTO(
-    Long id,
+    UUID id,
     Date operationDate,
     Double amount,
     String operationType,
