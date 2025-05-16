@@ -22,4 +22,8 @@ public class Customer {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     private List<BankAccount> bankAccounts;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private AppUser user;
 }
