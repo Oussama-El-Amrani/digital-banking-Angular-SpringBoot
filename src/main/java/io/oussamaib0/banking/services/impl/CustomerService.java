@@ -82,4 +82,11 @@ public class CustomerService implements ICustomerService {
         return customerRepository.findByIdWithAccounts(id)
             .orElseThrow(() -> new CustomerNotFoundException(id));
     }
+
+    @Override
+    public Customer getCustomerAccountIds(Long id) {
+        return customerRepository.findByIdWithAccounts(id).orElseThrow(
+            () -> new CustomerNotFoundException(id)
+        );
+    }
 }

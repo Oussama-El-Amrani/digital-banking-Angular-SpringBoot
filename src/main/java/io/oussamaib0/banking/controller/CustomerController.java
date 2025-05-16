@@ -34,19 +34,39 @@ public class CustomerController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<CustomerDTO>> getAllCustomers() {
-        List<Customer> customers = customerService.getAllCustomersWitAccounts();
-        List<CustomerDTO> dtos = customers.stream()
-            .map(mapper::toDTO)
-            .collect(Collectors.toList());
-        return ResponseEntity.ok(dtos);
+    public ResponseEntity<List<?>> getAllCustomers(@RequestParam(defaultValue = "false") boolean includeAccounts) {
+        if (includeAccounts) {
+            List<Customer> customers = customerService.getAllCustomersWitAccounts();
+            return ResponseEntity.ok(customers.stream()
+                .map(customer -> {
+                    List<String> accountIds = customer.getBankAccounts().stream()
+                        .map(account -> account.getId().toString())
+                        .collect(Collectors.toList());
+                    return mapper.toWithAccountsIdsDTO(customer);
+                })
+                .collect(Collectors.toList()));
+        } else {
+            List<Customer> customers = customerService.getAllCustomers();
+            return ResponseEntity.ok(customers.stream()
+                .map(mapper::toDTO)
+                .collect(Collectors.toList()));
+        }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CustomerDTO> getCustomer(@PathVariable Long id) {
-        Customer customer = customerService.getCustomerByIdWithAccounts(id);
-        CustomerDTO dto = mapper.toDTO(customer);
-        return ResponseEntity.ok(dto);
+    public ResponseEntity<?> getCustomer(@PathVariable Long id, @RequestParam(defaultValue = "false") boolean includeAccounts) {
+        if (includeAccounts) {
+            Customer customer = customerService.getCustomerByIdWithAccounts(id);
+            List<String> accountIds = customer.getBankAccounts().stream()
+                .map(account -> account.getId().toString())
+                .collect(Collectors.toList());
+
+            return ResponseEntity.ok(mapper.toWithAccountsIdsDTO(customer));
+        } else {
+            Customer customer = customerService.getCustomerById(id);
+            CustomerDTO dto = mapper.toDTO(customer);
+            return ResponseEntity.ok(dto);
+        }
     }
 
     @PutMapping("/{id}")
@@ -69,4 +89,14 @@ public class CustomerController {
         CustomerDTO dto = mapper.toDTO(customer);
         return ResponseEntity.ok(dto);
     }
+
+    @GetMapping("/{id}/accounts")
+    public ResponseEntity<List<String>> getCustomerAccountIds(@PathVariable Long id) {
+        Customer customer = customerService.getCustomerAccountIds(id);
+        List<String> accountIds = customer.getBankAccounts().stream()
+            .map(account -> account.getId().toString())
+            .collect(Collectors.toList());
+        return ResponseEntity.ok(accountIds);
+    }
+
 }

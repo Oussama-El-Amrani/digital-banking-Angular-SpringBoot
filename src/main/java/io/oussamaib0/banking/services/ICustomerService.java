@@ -20,4 +20,6 @@ public interface ICustomerService {
     List<Customer> getAllCustomersWitAccounts();
 
     Customer getCustomerByIdWithAccounts(Long id);
+
+    Customer getCustomerAccountIds(Long id);
 }
