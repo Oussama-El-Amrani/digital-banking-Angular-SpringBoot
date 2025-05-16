@@ -1,10 +1,9 @@
 package io.oussamaib0.banking.controller.dtos;
 
-public record CustomerDTO(
-    Long id,
+public record CustomerRequestDTO(
     String name,
     String email,
-    String phoneNumber
-
+    String phoneNumber,
+    String address
 ) {
 }

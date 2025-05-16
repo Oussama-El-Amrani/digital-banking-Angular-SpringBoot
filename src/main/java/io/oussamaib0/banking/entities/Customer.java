@@ -19,7 +19,7 @@ public class Customer {
     private String phoneNumber;
     private String address;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     private List<BankAccount> bankAccounts;
 }

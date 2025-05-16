@@ -7,6 +7,9 @@ import io.oussamaib0.banking.repositories.CustomerRepository;
 import io.oussamaib0.banking.services.ICustomerService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class CustomerService implements ICustomerService {
 
@@ -18,6 +21,9 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public Customer createCustomer(Customer customer) {
+        if (customer.getBankAccounts() == null) {
+            customer.setBankAccounts(new ArrayList<>());
+        }
         return customerRepository.save(customer);
     }
 
@@ -59,5 +65,21 @@ public class CustomerService implements ICustomerService {
     public Customer getCustomerByEmail(String email) {
         return customerRepository.findByEmail(email)
             .orElseThrow(() -> new CustomerEmailNotFoundException(email));
+    }
+
+    @Override
+    public List<Customer> getAllCustomers() {
+        return customerRepository.findAll();
+    }
+
+    @Override
+    public List<Customer> getAllCustomersWitAccounts() {
+        return customerRepository.findAllWithAccounts();
+    }
+
+    @Override
+    public Customer getCustomerByIdWithAccounts(Long id) {
+        return customerRepository.findByIdWithAccounts(id)
+            .orElseThrow(() -> new CustomerNotFoundException(id));
     }
 }
