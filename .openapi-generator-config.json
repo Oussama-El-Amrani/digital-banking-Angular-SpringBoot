@@ -1,0 +1,25 @@
+{
+  "generator-cli": {
+    "version": "6.6.0",
+    "generators": {
+      "bankingApi": {
+        "generatorName": "typescript-angular",
+        "inputSpec": "./api-docs.json",
+        "output": "./src/main/webapp/app/api",
+        "additionalProperties": {
+          "ngVersion": "19.0.0",
+          "npmName": "banking-api",
+          "supportsES6": true,
+          "nullSafeAdditionalProps": false,
+          "fileNaming": "kebab-case",
+          "modelPropertyNaming": "original",
+          "serviceSuffix": "Service",
+          "serviceFileSuffix": ".service",
+          "providedIn": "root",
+          "withInterfaces": true
+        }
+      }
+    }
+  }
+}
+
