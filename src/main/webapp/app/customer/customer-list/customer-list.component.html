@@ -1,0 +1,76 @@
+<div class="container mx-auto px-4 py-4">
+  <div class="bg-white shadow-md rounded-lg overflow-hidden">
+    <div class="flex justify-between items-center px-6 py-4 bg-gray-50 border-b">
+      <h3 class="text-xl font-semibold text-gray-800">Customers</h3>
+      <button
+        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+        [routerLink]="['/customers/new']">
+        Add New Customer
+      </button>
+    </div>
+
+    <div class="p-6">
+      @if (errorMessage) {
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          {{ errorMessage }}
+        </div>
+      }
+
+      @if (loading) {
+        <div class="text-center py-4">
+          <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-gray-300 border-t-blue-600"></div>
+          <span class="sr-only">Loading...</span>
+        </div>
+      }
+
+      @if (!loading) {
+        @if (customers.length > 0) {
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                @for (customer of customers; track customer.id) {
+                  <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ customer.id }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ customer.name }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ customer.email }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      <div class="flex space-x-2">
+                        <button
+                          class="text-white bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded-md text-sm"
+                          [routerLink]="['/customers', customer.id]">
+                          Details
+                        </button>
+                        <button
+                          class="text-white bg-yellow-500 hover:bg-yellow-600 px-3 py-1 rounded-md text-sm"
+                          [routerLink]="['/customers', customer.id, 'edit']">
+                          Edit
+                        </button>
+                        <button
+                          class="text-white bg-red-500 hover:bg-red-600 px-3 py-1 rounded-md text-sm"
+                          (click)="deleteCustomer(customer.id)">
+                          Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        } @else {
+          <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded">
+            No customers found. Click "Add New Customer" to create one.
+          </div>
+        }
+      }
+    </div>
+  </div>
+</div>

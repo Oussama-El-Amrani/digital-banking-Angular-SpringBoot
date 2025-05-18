@@ -1,0 +1,68 @@
+<div class="container mx-auto px-4 py-4">
+  <div class="bg-white shadow-md rounded-lg overflow-hidden">
+    <div class="px-6 py-4 bg-gray-50 border-b">
+      <h3 class="text-xl font-semibold text-gray-800">{{ isEditMode ? 'Edit' : 'Add' }} Customer</h3>
+    </div>
+
+    <div class="p-6">
+      @if (errorMessage) {
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          {{ errorMessage }}
+        </div>
+      }
+
+      <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+        <div class="mb-4">
+          <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+          <input
+            type="text"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            id="name"
+            formControlName="name"
+            placeholder="Enter customer name">
+          @if (submitted && customerForm.controls['name'].errors) {
+            @if (customerForm.controls['name'].errors['required']) {
+              <p class="mt-1 text-sm text-red-600">Name is required</p>
+            }
+          }
+        </div>
+
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+          <input
+            type="email"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            id="email"
+            formControlName="email"
+            placeholder="Enter customer email">
+          @if (submitted && customerForm.controls['email'].errors) {
+            @if (customerForm.controls['email'].errors['required']) {
+              <p class="mt-1 text-sm text-red-600">Email is required</p>
+            }
+            @if (customerForm.controls['email'].errors['email']) {
+              <p class="mt-1 text-sm text-red-600">Please enter a valid email</p>
+            }
+          }
+        </div>
+
+        <div class="flex justify-between">
+          <button
+            type="button"
+            class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+            [routerLink]="['/customers']">
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            [disabled]="loading">
+            @if (loading) {
+              <span class="inline-block animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-1"></span>
+            }
+            {{ isEditMode ? 'Update' : 'Create' }} Customer
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
