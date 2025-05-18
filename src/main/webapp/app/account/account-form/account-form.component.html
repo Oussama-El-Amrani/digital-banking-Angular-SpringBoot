@@ -1,0 +1,131 @@
+<div class="container mx-auto px-4 py-4">
+  <div class="bg-white shadow-md rounded-lg overflow-hidden">
+    <div class="px-6 py-4 bg-gray-50 border-b">
+      <h3 class="text-xl font-semibold text-gray-800">Create New Bank Account</h3>
+    </div>
+
+    <div class="p-6">
+      @if (errorMessage) {
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          {{ errorMessage }}
+        </div>
+      }
+
+      <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
+        <div class="mb-4">
+          <label for="customerId" class="block text-sm font-medium text-gray-700 mb-1">Customer</label>
+          <select
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            id="customerId"
+            formControlName="customerId"
+            [disabled]="!!preSelectedCustomerId">
+            <option value="">Select a customer</option>
+            @for (customer of customers; track customer.id) {
+              <option [value]="customer.id">{{ customer.name }} ({{ customer.email }})</option>
+            }
+          </select>
+          @if (submitted && accountForm.controls['customerId'].errors) {
+            @if (accountForm.controls['customerId'].errors['required']) {
+              <p class="mt-1 text-sm text-red-600">Customer is required</p>
+            }
+          }
+        </div>
+
+        <div class="mb-4">
+          <label for="initialBalance" class="block text-sm font-medium text-gray-700 mb-1">Initial Balance</label>
+          <input
+            type="number"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            id="initialBalance"
+            formControlName="balance"
+            placeholder="Enter initial balance">
+          @if (submitted && accountForm.controls['balance'].errors) {
+            @if (accountForm.controls['balance'].errors['required']) {
+              <p class="mt-1 text-sm text-red-600">Initial balance is required</p>
+            }
+            @if (accountForm.controls['balance'].errors['min']) {
+              <p class="mt-1 text-sm text-red-600">Initial balance must be at least 0</p>
+            }
+          }
+        </div>
+
+        <div class="mb-4">
+          <label for="accountType" class="block text-sm font-medium text-gray-700 mb-1">Account Type</label>
+          <select
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            id="accountType"
+            formControlName="type">
+            <option [value]="AccountType.CURRENT">Current Account</option>
+            <option [value]="AccountType.SAVING">Saving Account</option>
+          </select>
+          @if (submitted && accountForm.controls['type'].errors) {
+            @if (accountForm.controls['type'].errors['required']) {
+              <p class="mt-1 text-sm text-red-600">Account type is required</p>
+            }
+          }
+        </div>
+
+        @if (accountForm.get('type')?.value === AccountType.CURRENT) {
+          <div class="mb-4">
+            <label for="overDraft" class="block text-sm font-medium text-gray-700 mb-1">Overdraft Limit</label>
+            <input
+              type="number"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              id="overDraft"
+              formControlName="overDraft"
+              placeholder="Enter overdraft limit">
+            @if (submitted && accountForm.controls['overDraft'].errors) {
+              @if (accountForm.controls['overDraft'].errors['required']) {
+                <p class="mt-1 text-sm text-red-600">Overdraft limit is required for Current accounts</p>
+              }
+              @if (accountForm.controls['overDraft'].errors['min']) {
+                <p class="mt-1 text-sm text-red-600">Overdraft limit must be at least 0</p>
+              }
+            }
+          </div>
+        }
+
+        @if (accountForm.get('type')?.value === AccountType.SAVING) {
+          <div class="mb-4">
+            <label for="interestRate" class="block text-sm font-medium text-gray-700 mb-1">Interest Rate (%)</label>
+            <input
+              type="number"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              id="interestRate"
+              formControlName="interestRate"
+              placeholder="Enter interest rate">
+            @if (submitted && accountForm.controls['interestRate'].errors) {
+              @if (accountForm.controls['interestRate'].errors['required']) {
+                <p class="mt-1 text-sm text-red-600">Interest rate is required for Saving accounts</p>
+              }
+              @if (accountForm.controls['interestRate'].errors['min']) {
+                <p class="mt-1 text-sm text-red-600">Interest rate must be at least 0</p>
+              }
+              @if (accountForm.controls['interestRate'].errors['max']) {
+                <p class="mt-1 text-sm text-red-600">Interest rate must be at most 100</p>
+              }
+            }
+          </div>
+        }
+
+        <div class="flex justify-between">
+          <button
+            type="button"
+            class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+            [routerLink]="preSelectedCustomerId ? ['/customers', preSelectedCustomerId] : ['/customers']">
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            [disabled]="loading">
+            @if (loading) {
+              <span class="inline-block animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-1"></span>
+            }
+            Create Account
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
