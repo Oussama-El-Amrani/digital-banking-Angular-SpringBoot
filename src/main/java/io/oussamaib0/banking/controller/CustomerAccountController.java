@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/customer/accounts")
 @PreAuthorize("hasRole('CUSTOMER')")
+@CrossOrigin(origins = "*", maxAge = 3600, allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS})
 public class CustomerAccountController {
 
     private final ICustomerAccountService customerAccountService;
@@ -32,12 +34,18 @@ public class CustomerAccountController {
 
     @GetMapping
     public ResponseEntity<List<BankAccountDTO>> getMyAccounts() {
-        String username = getCurrentUsername();
-        List<BankAccount> accounts = customerAccountService.getCustomerAccounts(username);
-        List<BankAccountDTO> dtos = accounts.stream()
-                .map(bankAccountMapper::bankAccountToDTO)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(dtos);
+        try {
+            String username = getCurrentUsername();
+            List<BankAccount> accounts = customerAccountService.getCustomerAccounts(username);
+            List<BankAccountDTO> dtos = accounts.stream()
+                    .map(bankAccountMapper::bankAccountToDTO)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(dtos);
+        } catch (Exception e) {
+            // Log the exception
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
     }
 
     @GetMapping("/{id}")
@@ -48,6 +56,9 @@ public class CustomerAccountController {
             return ResponseEntity.ok(bankAccountMapper.bankAccountToDTO(account));
         } catch (AccountNotFoundException e) {
             return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
         }
     }
 
@@ -59,6 +70,9 @@ public class CustomerAccountController {
             return ResponseEntity.ok().build();
         } catch (AccountNotFoundException e) {
             return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
         }
     }
 
@@ -71,7 +85,14 @@ public class CustomerAccountController {
         } catch (AccountNotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
+            if (e.getMessage() != null && e.getMessage().contains("Insufficient funds")) {
+                return ResponseEntity.badRequest().build();
+            }
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
         }
     }
 
@@ -89,7 +110,14 @@ public class CustomerAccountController {
         } catch (AccountNotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
+            if (e.getMessage() != null && e.getMessage().contains("Insufficient funds")) {
+                return ResponseEntity.badRequest().build();
+            }
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
         }
     }
 
