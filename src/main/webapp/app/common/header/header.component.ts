@@ -1,6 +1,7 @@
-import { Component, ElementRef, inject, HostListener } from '@angular/core';
+import { Component, ElementRef, inject, HostListener, OnInit } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -8,9 +9,30 @@ import { RouterLink } from '@angular/router';
   imports: [CommonModule, NgOptimizedImage, RouterLink],
   templateUrl: './header.component.html'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
 
   elRef = inject(ElementRef);
+  router = inject(Router);
+  authService = inject(AuthService);
+
+  isLoggedIn = false;
+  isAdmin = false;
+  isCustomer = false;
+  username = '';
+
+  ngOnInit(): void {
+    this.authService.currentUser.subscribe(user => {
+      this.isLoggedIn = !!user;
+      this.isAdmin = this.authService.isAdmin();
+      this.isCustomer = this.authService.isCustomer();
+      this.username = user?.username || '';
+    });
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/']);
+  }
 
   @HostListener('document:click', ['$event'])
   handleDropdown(event: Event) {

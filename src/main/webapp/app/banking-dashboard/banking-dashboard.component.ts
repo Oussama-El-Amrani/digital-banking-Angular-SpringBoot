@@ -4,6 +4,7 @@ import { RouterModule, Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
 import { CustomerService } from '../services/customer.service';
 import { BankAccountService } from '../services/bank-account.service';
+import { AuthService } from '../services/auth.service';
 import { Customer } from '../models/customer.model';
 import { BankAccountDTO } from '../models/bank-account.model';
 
@@ -36,11 +37,15 @@ export class BankingDashboardComponent implements OnInit {
   isTransferring = false;
   errorMessage = '';
 
+  // User role
+  isAdmin = false;
+
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
     private customerService: CustomerService,
-    private bankAccountService: BankAccountService
+    private bankAccountService: BankAccountService,
+    private authService: AuthService
   ) {
     this.transferForm = this.formBuilder.group({
       sourceCustomerId: ['', Validators.required],
@@ -53,16 +58,28 @@ export class BankingDashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadCustomers();
+    this.isAdmin = this.authService.isAdmin();
+
+    if (this.isAdmin) {
+      this.loadCustomers();
+    } else {
+      // For non-admin users, we don't need to load all customers
+      // They will only see their own accounts
+    }
   }
 
   loadCustomers(): void {
+    if (!this.isAdmin) {
+      return; // Only admin users can load all customers
+    }
+
     this.customerService.getAllCustomers().subscribe({
       next: (data) => {
         this.customers = data;
       },
       error: (err) => {
-        this.errorMessage = 'Error loading customers: ' + (err.message || 'Unknown error');
+        console.error('Error loading customers:', err);
+        this.errorMessage = 'Error loading customers: ' + (err.error?.message || 'Please try again later');
       }
     });
   }

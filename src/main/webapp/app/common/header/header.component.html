@@ -18,6 +18,51 @@
                     <li>
                         <a routerLink="/" class="block text-gray-500 p-2" i18n="@@navigation.home">Home</a>
                     </li>
+
+                    <!-- Show these links only when logged out -->
+                    @if (!isLoggedIn) {
+                        <li>
+                            <a routerLink="/login" class="block text-gray-500 p-2">Login</a>
+                        </li>
+                        <li>
+                            <a routerLink="/register" class="block text-gray-500 p-2">Register</a>
+                        </li>
+                    }
+
+                    <!-- Show these links only when logged in as admin -->
+                    @if (isAdmin) {
+                        <li>
+                            <a routerLink="/customers" class="block text-gray-500 p-2">Customers</a>
+                        </li>
+                        <li>
+                            <a routerLink="/accounts/new" class="block text-gray-500 p-2">New Account</a>
+                        </li>
+                    }
+
+                    <!-- Show these links only when logged in as customer -->
+                    @if (isCustomer) {
+                        <li>
+                            <a routerLink="/customer/accounts" class="block text-gray-500 p-2">My Accounts</a>
+                        </li>
+                    }
+
+                    <!-- Show these links only when logged in -->
+                    @if (isLoggedIn) {
+                        <li>
+                            <a routerLink="/banking" class="block text-gray-500 p-2">Dashboard</a>
+                        </li>
+                        <li class="relative">
+                            <button class="js-dropdown block text-gray-500 p-2 flex items-center" aria-expanded="false">
+                                <span class="mr-1">{{ username }}</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" (click)="logout(); $event.preventDefault()">Logout</a>
+                            </div>
+                        </li>
+                    }
                 </ul>
             </div>
         </nav>

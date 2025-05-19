@@ -80,7 +80,8 @@ export class CustomerFormComponent implements OnInit {
           this.router.navigate(['/customers']);
         },
         error: (err) => {
-          this.errorMessage = 'Error updating customer: ' + (err.message || 'Unknown error');
+          console.error('Error updating customer:', err);
+          this.errorMessage = 'Error updating customer: ' + (err.error?.message || 'Please try again later');
           this.loading = false;
         }
       });
@@ -90,7 +91,8 @@ export class CustomerFormComponent implements OnInit {
           this.router.navigate(['/customers']);
         },
         error: (err) => {
-          this.errorMessage = 'Error creating customer: ' + (err.message || 'Unknown error');
+          console.error('Error creating customer:', err);
+          this.errorMessage = 'Error creating customer: ' + (err.error?.message || 'Please try again later');
           this.loading = false;
         }
       });
