@@ -1,65 +1,91 @@
-# MyApp
+# Application de Banque Digitale
 
-This app was created with Bootify.io - tips on working with the code [can be found here](https://bootify.io/next-steps/).
+## Présentation
 
-## Development
+Cette application de banque digitale est une solution complète développée avec Angular pour le frontend et Spring Boot pour le backend. Elle permet la gestion des clients, des comptes bancaires et des opérations financières dans un environnement sécurisé.
 
-When starting the application `docker compose up` is called and the app will connect to the contained services.
-[Docker](https://www.docker.com/get-started/) must be available on the current system.
+## Fonctionnalités
 
-During development it is recommended to use the profile `local`. In IntelliJ `-Dspring.profiles.active=local` can be
-added in the VM options of the Run Configuration after enabling this property in "Modify options". Create your own
-`application-local.properties` file to override settings for development.
+- Gestion des clients (ajout, modification, suppression)
+- Gestion des comptes bancaires (consultation, création)
+- Réalisation d'opérations (dépôt, retrait, virement)
+- Consultation de l'historique des opérations
 
-Lombok must be supported by your IDE. For IntelliJ install the Lombok plugin and enable annotation processing -
-[learn more](https://bootify.io/next-steps/spring-boot-with-lombok.html).
+## Technologies utilisées
 
-In addition to the Spring Boot application, the development server must also be started - for this
-[Node.js](https://nodejs.org/) version 22 is required. Angular CLI and required dependencies must be installed once:
+- **Frontend**: Angular, Bootstrap
+- **Backend**: Spring Boot, Spring Data JPA, Spring Security
+- **Base de données**: MySQL/H2
 
+## Captures d'écran
+
+### Page d'accueil
+
+![Page d'accueil](./docs/screenshots/features_menu_page.png)
+
+### Liste des clients
+
+![Liste des clients](./docs/screenshots/details_customers.png)
+
+### Détails des comptes
+
+![Détails des comptes](./docs/screenshots/create_new_bank_account.png)
+
+### Opérations bancaires
+
+![Opérations bancaires](./docs/screenshots/create_new_bank_account.png)
+
+## Installation et démarrage
+
+### Prérequis
+
+- Java 11+
+- Node.js et npm
+- Maven
+
+### Installation du backend
+
+```bash
+# Cloner le dépôt
+git clone [URL_DU_REPO]
+
+# Accéder au dossier backend
+cd tp-digital-banking-Angular-springBoot/backend
+
+# Installer les dépendances et compiler
+mvn clean install
+
+# Démarrer le serveur
+mvn spring-boot:run
 ```
-npm install -g @angular/cli
+
+### Installation du frontend
+
+```bash
+# Accéder au dossier frontend
+cd tp-digital-banking-Angular-springBoot
+
+# Installer les dépendances
 npm install
-```
 
-The development server can be started as follows:
-
-```
+# Démarrer l'application
 ng serve
 ```
 
-Your application is now accessible under `localhost:4200`.
+L'application sera accessible à l'adresse: http://localhost:4200
 
-Add code using Angular schematics with `ng generate ...`.
-Frontend unit tests can be executed with `ng test`.
-Generate a messages.json for translation with `ng extract-i18n --format=json`.
+## Structure du projet
 
-## Build
+### Backend
 
-The application can be built using the following command:
+- Controllers REST pour exposer les API
+- Services pour la logique métier
+- Repositories pour l'accès aux données
+- Entités JPA pour la modélisation des données
 
-```
-mvnw clean package
-```
+### Frontend
 
-Start your application with the following command - here with the profile `production`:
-
-```
-java -Dspring.profiles.active=production -jar ./target/my-app-0.0.1-SNAPSHOT.jar
-```
-
-If required, a Docker image can be created with the Spring Boot plugin. Add `SPRING_PROFILES_ACTIVE=production` as
-environment variable when running the container.
-
-```
-mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=io.oussamaib0/my-app
-```
-
-## Further readings
-
-* [Maven docs](https://maven.apache.org/guides/index.html)  
-* [Spring Boot reference](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/)  
-* [Spring Data JPA reference](https://docs.spring.io/spring-data/jpa/reference/jpa.html)
-* [Learn Angular](https://angular.dev/tutorials/learn-angular)  
-* [Angular CLI](https://angular.dev/tools/cli)
-* [Tailwind CSS](https://tailwindcss.com/)  
+- Components Angular pour l'interface utilisateur
+- Services pour communiquer avec le backend
+- Models pour représenter les données
+- Guards pour la sécurité
