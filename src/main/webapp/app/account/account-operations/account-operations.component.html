@@ -18,7 +18,7 @@
         <h3 class="text-xl font-semibold text-gray-800">Account Details</h3>
         <button
           class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-md transition duration-300"
-          [routerLink]="['/customers', account.customerDTO.id]">
+          [routerLink]="['/customers', account.customerId]">
           Back to Customer
         </button>
       </div>
@@ -26,28 +26,20 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <p class="mb-2"><span class="font-semibold">Account ID:</span> {{ account.id }}</p>
-            <p class="mb-2"><span class="font-semibold">Type:</span> {{ account.type }}</p>
-            <p class="mb-2"><span class="font-semibold">Balance:</span> {{ account.balance | currency }}</p>
-            <p class="mb-2"><span class="font-semibold">Created Date:</span> {{ account.createdAt | date }}</p>
-            <p class="mb-2">
-              <span class="font-semibold">Status:</span>
-              <span
-                [class]="account.status === 'ACTIVE' ?
-                  'px-2 py-1 text-xs rounded-full bg-green-100 text-green-800' :
-                  account.status === 'SUSPENDED' ?
-                  'px-2 py-1 text-xs rounded-full bg-red-100 text-red-800' :
-                  'px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800'">
-                {{ account.status }}
-              </span>
-            </p>
-            <p class="mb-2"><span class="font-semibold">Customer:</span> {{ account.customerDTO.name }}</p>
+              <p class="mb-2"><span class="font-semibold">Type:</span> {{ account.accountType }}</p>
+              <p class="mb-2"><span
+                  class="font-semibold">Balance:</span> {{ account.balance | currency:account.currency }}</p>
+              <p class="mb-2"><span class="font-semibold">Account Number:</span> {{ account.accountNumber }}</p>
+              <p class="mb-2"><span class="font-semibold">Customer:</span> {{ account.customerName }}</p>
           </div>
           <div>
-            @if (account.type === 'CURRENT') {
-              <p class="mb-2"><span class="font-semibold">Overdraft:</span> {{ account.overDraft | currency }}</p>
+              @if (account.accountType === 'CURRENT') {
+                  <!-- We'll need to get the overdraft limit from a different API call -->
+                  <p class="mb-2"><span class="font-semibold">Account Type:</span> Current Account</p>
             }
-            @if (account.type === 'SAVING') {
-              <p class="mb-2"><span class="font-semibold">Interest Rate:</span> {{ account.interestRate }}%</p>
+              @if (account.accountType === 'SAVING') {
+                  <!-- We'll need to get the interest rate from a different API call -->
+                  <p class="mb-2"><span class="font-semibold">Account Type:</span> Saving Account</p>
             }
           </div>
         </div>
